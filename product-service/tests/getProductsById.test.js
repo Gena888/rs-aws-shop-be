@@ -2,7 +2,7 @@ import { getProductsById } from "../getProductsById";
 
 const mockedEventWithExistingId = {
   pathParameters: {
-    productId: '1'
+    productId: '7567ec4b-b10c-48c5-9345-fc73c48a80aa'
   }
 }
 
@@ -20,13 +20,14 @@ const mockedSuccessResponse = {
     "Content-Type": "application/json;charset=UTF-8",
   },
   isBase64Encoded: false,
-  body: JSON.stringify({
-    id: '1',
-    productName: 'product 1 name',
-    productPrice: 1.33,
-    productCurrency: '$',
-    productCount: 1,
-  }),
+  body: JSON.stringify(  {
+    count: 5,
+    description: "So strange",
+    id: "7567ec4b-b10c-48c5-9345-fc73c48a80aa",
+    price: 3,
+    title: "Strange nose",
+    image: 'https://www.pethealthnetwork.com/sites/default/files/styles/large/public/cryptococcosis-in-cats-187961300.png?itok=8dmMOu6R',
+  },),
 }
 
 const mockedFailureResponse = {

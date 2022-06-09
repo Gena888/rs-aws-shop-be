@@ -26,6 +26,7 @@ provider:
   httpApi:
     cors:
       allowedOrigins:
+        - "*"
         - https://d2d5yrgw9jop59.cloudfront.net/
       allowedHeaders:
         - Content-Type
