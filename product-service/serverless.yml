@@ -40,6 +40,12 @@ provider:
         - Authorization
       allowedMethods:
         - GET
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "lambda:InvokeFunction"
+      Resource: "*"
+
 functions:
   fillDb:
     handler: pg-client-lambda.invoke
@@ -62,3 +68,9 @@ functions:
           path: /products
           method: post
           bodyType: 'PostProduct'
+  catalogBatchProcess: 
+    handler: catalogBatchProcess.catalogBatchProcess
+    events:
+       - sqs:
+          batchSize: 5
+          arn: arn:aws:sqs:eu-west-1:600153406862:my-import-service-gena888-queue

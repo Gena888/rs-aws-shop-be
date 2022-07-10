@@ -5,6 +5,7 @@ const BUCKET = "my-import-service-gena888";
 
 export const importFileParser = async (event) => {
   const s3 = new AWS.S3({ region: "eu-west-1", signatureVersion: 'v4' });
+  const sqs = new AWS.SQS()
   for (const record of event.Records) {
     const key = record.s3.object.key;
     const bucketName = record.s3.bucket.name;
@@ -29,7 +30,7 @@ export const importFileParser = async (event) => {
           Key: key,
         })
         .promise();
-      console.log(key + " mooved from uploaded to parsed");
+      console.log(key + " moved from uploaded to parsed");
     };
 
     await new Promise(() => {
@@ -37,7 +38,14 @@ export const importFileParser = async (event) => {
         .createReadStream()
         .pipe(csv())
         .on("data", (item) => {
-          console.log(item);
+          sqs.sendMessage({
+            QueueUrl: process.env.SQS_URL,
+            MessageBody: JSON.stringify(item)
+          }, (error, message) => {
+            if (error) { console.log('We\'v got some error: ', error); }
+            console.log('Successfully sent message: ', message);
+          })
+          console.log('item', item);
         })
         .on("end", handleParseAndUpdate);
     });
