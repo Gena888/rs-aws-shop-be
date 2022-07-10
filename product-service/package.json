@@ -22,6 +22,7 @@
   "license": "MIT",
   "dependencies": {
     "aws-sdk": "^2.1171.0",
+    "aws-sdk-mock": "^5.7.0",
     "pg": "^8.7.3",
     "serverless-auto-swagger": "^2.5.1"
   }
