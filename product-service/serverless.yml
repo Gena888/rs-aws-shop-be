@@ -12,7 +12,7 @@ custom:
   serverless-auto-swagger:
     apiType: "httpApi"
     generateSwaggerOnDeploy: true
-    typefiles: ['./src/types/api-types.d.ts']
+    typefiles: ["./src/types/api-types.d.ts"]
 
 # Add the serverless-webpack plugin
 plugins:
@@ -48,9 +48,8 @@ provider:
       Resource: "*"
     - Effect: "Allow"
       Action: "sns:*"
-      Resource: 
+      Resource:
         Ref: SNSTopic
-
 
 resources:
   Resources:
@@ -63,8 +62,18 @@ resources:
       Properties:
         Endpoint: theGena888@gmail.com
         Protocol: email
-        TopicArn: 
+        TopicArn:
           Ref: SNSTopic
+    SNSSubscriptionFiltered:
+      Type: AWS::SNS::Subscription
+      Properties:
+        Endpoint: theGena888test@gmail.com
+        Protocol: email
+        TopicArn:
+          Ref: SNSTopic
+        FilterPolicy:
+          image: 
+            - true
 
 functions:
   fillDb:
@@ -87,10 +96,10 @@ functions:
       - httpApi:
           path: /products
           method: post
-          bodyType: 'PostProduct'
-  catalogBatchProcess: 
+          bodyType: "PostProduct"
+  catalogBatchProcess:
     handler: catalogBatchProcess.catalogBatchProcess
     events:
-       - sqs:
+      - sqs:
           batchSize: 5
           arn: arn:aws:sqs:eu-west-1:600153406862:my-import-service-gena888-queue

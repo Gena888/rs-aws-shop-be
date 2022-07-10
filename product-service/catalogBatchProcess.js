@@ -15,6 +15,12 @@ export const catalogBatchProcess = (event, context, callback) => {
           Subject: 'Product has been published',
           Message: JSON.stringify(item.body),
           TopicArn: process.env.SNS_ARN,
+          MessageAttributes: {
+            image: {
+              DataType: 'String',
+              StringValue: JSON.parse(item.body).image ? "true" : "false",
+            }
+          }
         }).promise()
           .then(() => {
             console.log('Send email for: ', JSON.stringify(JSON.parse(item.body)));
