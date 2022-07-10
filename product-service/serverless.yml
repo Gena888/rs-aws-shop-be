@@ -28,6 +28,7 @@ provider:
     PG_DATABASE: lesson4
     PG_USERNAME: postgres
     PG_PASSWORD: ygXaacZ3kk7blYk3GPN8
+    SNS_ARN: { Ref: SNSTopic }
   stage: dev
   region: eu-west-1
   httpApi:
@@ -45,6 +46,25 @@ provider:
       Action:
         - "lambda:InvokeFunction"
       Resource: "*"
+    - Effect: "Allow"
+      Action: "sns:*"
+      Resource: 
+        Ref: SNSTopic
+
+
+resources:
+  Resources:
+    SNSTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: product-service-topic-gena888
+    SNSSubscription:
+      Type: AWS::SNS::Subscription
+      Properties:
+        Endpoint: theGena888@gmail.com
+        Protocol: email
+        TopicArn: 
+          Ref: SNSTopic
 
 functions:
   fillDb:
