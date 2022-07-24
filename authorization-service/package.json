@@ -1,0 +1,31 @@
+{
+  "name": "authorization-service",
+  "version": "1.0.0",
+  "description": "Serverless webpack example using ecma script",
+  "scripts": {
+    "test": "jest",
+    "test:cov": "jest coverage",
+    "igor": "serverless invoke local --function basicAuthorizer --data '{\"authorizationToken\":\"Basic R2VuYTg4OD1URVNUX1BBU1NXT1JE\"}'"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.1",
+    "@babel/plugin-transform-modules-commonjs": "^7.18.2",
+    "@babel/preset-env": "^7.11.0",
+    "babel-loader": "^8.1.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-polyfill": "^6.23.0",
+    "babel-preset-env": "^1.6.0",
+    "jest": "^28.1.1",
+    "serverless-webpack": "^5.3.1",
+    "webpack": "^4.35.2"
+  },
+  "author": "The serverless webpack authors (https://github.com/elastic-coders/serverless-webpack)",
+  "license": "MIT",
+  "dependencies": {
+    "aws-sdk": "^2.1171.0",
+    "aws-sdk-mock": "^5.7.0",
+    "pg": "^8.7.3",
+    "serverless-auto-swagger": "^2.5.1",
+    "serverless-dotenv-plugin": "^4.0.1"
+  }
+}
