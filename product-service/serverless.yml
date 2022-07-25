@@ -12,6 +12,7 @@ custom:
   serverless-auto-swagger:
     apiType: "httpApi"
     generateSwaggerOnDeploy: true
+    typefiles: ['./src/types/api-types.d.ts']
 
 # Add the serverless-webpack plugin
 plugins:
@@ -22,11 +23,11 @@ provider:
   name: aws
   runtime: nodejs12.x
   environment:
-    PG_HOST: ${PG__HOST}
-    PG_PORT: ${PG__PORT}
-    PG_DATABASE: ${PG__DATABASE}
-    PG_USERNAME: ${PG__USERNAME}
-    PG_PASSWORD: ${PG__PASSWORD}
+    PG_HOST: lesson4-instance.cyguoxkkxmcd.eu-west-1.rds.amazonaws.com
+    PG_PORT: 5432
+    PG_DATABASE: lesson4
+    PG_USERNAME: postgres
+    PG_PASSWORD: ygXaacZ3kk7blYk3GPN8
   stage: dev
   region: eu-west-1
   httpApi:
@@ -60,3 +61,4 @@ functions:
       - httpApi:
           path: /products
           method: post
+          bodyType: 'PostProduct'

@@ -1,4 +1,3 @@
-import products from "./mocks/products.mock";
 import pg from "pg";
 const { Client } = pg;
 
