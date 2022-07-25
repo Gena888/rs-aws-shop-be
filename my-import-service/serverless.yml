@@ -10,6 +10,19 @@ provider:
   runtime: nodejs14.x
   stage: dev
   region: eu-west-1
+  http:
+    cors:
+      allowedOrigins:
+        - "*"
+        - https://d2d5yrgw9jop59.cloudfront.net/
+      allowedHeaders:
+        - Content-Type
+        - Authorization
+        - authorization
+      allowedMethods:
+        - GET
+        - OPTIONS
+        - PUT
   apiGateway:
     minimumCompressionSize: 1024
     shouldStartNameWithService: true
@@ -23,6 +36,29 @@ provider:
         - "s3:*"
       Resource:
         - "arn:aws:s3:::my-import-service-gena888/*"
+    - Effect: "Allow"
+      Action: "sqs:*"
+      Resource:
+        - Fn::GetAtt: [ SQSQueue, Arn ]
+  environment:
+    SQS_URL: { Ref: SQSQueue }
+
+resources:
+  Resources:
+    SQSQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: my-import-service-gena888-queue
+
+    GatewayResponseDefault4XX:
+      Type: 'AWS::ApiGateway::GatewayResponse'
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+          gatewayresponse.header.Access-Control-Allow-Methods: "'GET,OPTIONS'"
+        ResponseType: DEFAULT_4XX
+        RestApiId: 6l3uawofse
 
 functions:
   importProductsFile:
@@ -31,6 +67,7 @@ functions:
       - http:
           path: /import
           method: GET
+          cors: true
           request:
             parameters:
               querystrings:
